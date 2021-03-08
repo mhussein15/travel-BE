@@ -13,6 +13,8 @@ const db = require("./db/models");
 const morgan = require("morgan");
 
 //IMPORT ROUTES
+const flightRoutes = require("./routes/flights");
+
 const airportRoutes = require("./routes/airports");
 
 //MIDDLEWARE
@@ -26,6 +28,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 //ROUTES
+app.use("/flights", flightRoutes);
 app.use("/airports", airportRoutes);
 
 //MEDIA ROUTE
