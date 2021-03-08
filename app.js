@@ -14,8 +14,9 @@ const morgan = require("morgan");
 
 //IMPORT ROUTES
 const flightRoutes = require("./routes/flights");
-
 const airportRoutes = require("./routes/airports");
+const airlineRoutes = require("./routes/airlines");
+const passegnerRoutes = require("./routes/passengers");
 
 //MIDDLEWARE
 app.use(morgan("dev"));
@@ -28,9 +29,10 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 //ROUTES
+app.use(passegnerRoutes);
+app.use(airlineRoutes);
 app.use("/flights", flightRoutes);
 app.use("/airports", airportRoutes);
-
 //MEDIA ROUTE
 app.use("/media", express.static(path.join(__dirname, "media")));
 

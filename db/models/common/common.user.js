@@ -5,8 +5,8 @@ const commonUser = {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      min: {
-        args: 6,
+      len: {
+        args: [6],
         msg: "Username length must be more than 6 characters",
       },
     },
@@ -14,13 +14,13 @@ const commonUser = {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      is: {
-        args: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$"],
-        msg:
-          "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
-      },
-    },
+    // validate: {
+    //   is: {
+    //     args: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$","i"],
+    //     msg:
+    //       "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
+    //   },
+    // },
   },
   email: {
     type: DataTypes.STRING,
