@@ -1,4 +1,3 @@
-db/config/config.json
 media
 # Logs
 logs
@@ -106,4 +105,4 @@ dist
 .tern-port
 
 # DB Config
-db/config/config.json
+db/config
