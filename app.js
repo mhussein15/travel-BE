@@ -13,17 +13,20 @@ const db = require("./db/models");
 const morgan = require("morgan");
 
 //IMPORT ROUTES
-
+const airportRoutes = require("./routes/airports");
 
 //MIDDLEWARE
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors());
+
 //PASSPORT
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
+
 //ROUTES
+app.use("/airports", airportRoutes);
 
 //MEDIA ROUTE
 app.use("/media", express.static(path.join(__dirname, "media")));
@@ -45,6 +48,7 @@ app.use((err, req, res, next) => {
 
 // start the server
 app.listen(8000);
+
 //DB settings
 db.sequelize.sync();
 db.sequelize.sync({ alter: true });
