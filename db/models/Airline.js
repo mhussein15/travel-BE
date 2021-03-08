@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     country: {
       type: DataTypes.STRING,
-    },
+    }
   });
   return Airline;
 };
