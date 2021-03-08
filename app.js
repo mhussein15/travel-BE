@@ -13,7 +13,7 @@ const db = require("./db/models");
 const morgan = require("morgan");
 
 //IMPORT ROUTES
-
+const flightRoutes = require("./routes/flights");
 
 //MIDDLEWARE
 app.use(morgan("dev"));
@@ -24,6 +24,7 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 //ROUTES
+app.use("/flights", flightRoutes);
 
 //MEDIA ROUTE
 app.use("/media", express.static(path.join(__dirname, "media")));
