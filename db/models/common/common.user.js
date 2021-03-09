@@ -10,13 +10,17 @@ const commonUser = {
         msg: "Username length must be more than 6 characters",
       },
     },
+    unique: {
+      args: true,
+      msg: "Username already in use!",
+    },
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
     // validate: {
     //   is: {
-    //     args: ["^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$","i"],
+    //     args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
     //     msg:
     //       "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:",
     //   },

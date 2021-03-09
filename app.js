@@ -33,6 +33,7 @@ app.use(passegnerRoutes);
 app.use(airlineRoutes);
 app.use("/flights", flightRoutes);
 app.use("/airports", airportRoutes);
+
 //MEDIA ROUTE
 app.use("/media", express.static(path.join(__dirname, "media")));
 
@@ -57,4 +58,4 @@ app.listen(8000);
 //DB settings
 db.sequelize.sync();
 db.sequelize.sync({ alter: true });
-// db.sequelize.sync({ force: true });
+// db.sequelize.sync({ force: true });`
