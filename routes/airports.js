@@ -1,21 +1,40 @@
+//IMORT FILES
 const express = require("express");
+const passport = require("passport");
+const router = express.Router();
+
+//IMPORT CONTROLLERS
 const {
   airportList,
   airportCreate,
 } = require("../controllers/airportController");
-const passport = require("passport");
-const { isAirline } = require("../middleware/isAirline");
 
-// const { Airport } = require("../db/models");
+//IMPORT AUTH
+const { isAirline } = require("../middleware/auth/airportAuth");
+//IMPORT VALIDATION
+const {
+  airportValidationRules,
+} = require("../middleware/validator/airportValidator");
+const { validate } = require("../middleware/validator/validate");
 
-const router = express.Router();
+//ROUTER
 
+//GET AIRPORT LIST
 router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   isAirline,
   airportList
 );
-router.post("/", airportCreate);
+
+//CREATE AIRPORT LIST 
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  isAirline,
+  airportValidationRules(),
+  validate,
+  airportCreate
+);
 
 module.exports = router;
