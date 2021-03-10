@@ -13,8 +13,6 @@ const {
 } = require("../middleware/validator/userValidator");
 const { validate } = require("../middleware/validator/validate");
 
-//ROUTER
-
 //SIGNIN
 router.post(
   "/airline-signin",
