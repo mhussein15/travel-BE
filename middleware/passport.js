@@ -51,7 +51,6 @@ exports.jwtStrategy = new JWTStrategy(
           where: { username: jwtPayload.username },
         });
       } else if (jwtPayload.role === "passenger") {
-        console.log("jwt passenger");
         user = await Passenger.findOne({
           where: { username: jwtPayload.username },
         });
