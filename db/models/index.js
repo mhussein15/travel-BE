@@ -47,4 +47,11 @@ db.Sequelize = Sequelize;
 db.Airline.hasMany(db.Flight, { foreignKey: "airlineId", as: "flights" });
 db.Flight.belongsTo(db.Airline, { foreignKey: "airlineId", as: "airline" });
 
+//Airport and Flight
+db.Airport.hasMany(db.Flight, { foreignKey: "departureAirportId" });
+db.Flight.belongsTo(db.Airport, { foreignKey: "departureAirportId" });
+
+db.Airport.hasMany(db.Flight, { foreignKey: "arrivalAirportId" });
+db.Flight.belongsTo(db.Airport, { foreignKey: "arrivalAirportId" });
+
 module.exports = db;

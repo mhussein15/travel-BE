@@ -17,7 +17,7 @@ const flightRoutes = require("./routes/flights");
 const airportRoutes = require("./routes/airports");
 const airlineauthRoutes = require("./routes/airlinesauth");
 const airlineRoutes = require("./routes/airlines");
-const passegnerRoutes = require("./routes/passengers");
+const userRoutes = require("./routes/user");
 
 //MIDDLEWARE
 app.use(morgan("dev"));
@@ -30,9 +30,9 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 //ROUTES
-app.use(passegnerRoutes);
 app.use(airlineauthRoutes);
 app.use("/airlines", airlineRoutes);
+app.use(userRoutes);
 app.use("/flights", flightRoutes);
 app.use("/airports", airportRoutes);
 
@@ -60,4 +60,4 @@ app.listen(8000);
 //DB settings
 db.sequelize.sync();
 db.sequelize.sync({ alter: true });
-// db.sequelize.sync({ force: true });`
+// db.sequelize.sync({ force: true });
