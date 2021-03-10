@@ -3,7 +3,11 @@ const { body } = require("express-validator");
 //USER SIGNIN VALIDATION
 exports.userSigninValidationRules = () => {
   return [
-    body("username").notEmpty().withMessage("Username is empty").trim().toLowerCase(),
+    body("username")
+      .notEmpty()
+      .withMessage("Username is empty")
+      .trim()
+      .toLowerCase(),
     body("password")
       .notEmpty()
       .withMessage("Password is empty")
