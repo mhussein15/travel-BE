@@ -1,6 +1,8 @@
 const { Sequelize } = require("sequelize");
+const { commonUser } = require("./common/common.user.js");
 module.exports = (sequelize, DataTypes) => {
-  const Passenger = sequelize.define("Passenger", {
+  const User = sequelize.define("User", {
+    ...commonUser,
     firstName: {
       type: DataTypes.STRING,
     },
@@ -17,5 +19,5 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.CHAR,
     },
   });
-  return Passenger;
+  return User;
 };

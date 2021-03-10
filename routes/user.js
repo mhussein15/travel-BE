@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 //IMPORT CONTROLLERS
-const { signin, signup } = require("../controllers/passengersController");
+const { signin, signup } = require("../controllers/usersController");
 //IMPORT VALIDATION RULES
 const {
   userSigninValidationRules,

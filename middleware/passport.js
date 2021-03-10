@@ -2,7 +2,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const JWTStrategy = require("passport-jwt").Strategy;
 const { fromAuthHeaderAsBearerToken } = require("passport-jwt").ExtractJwt;
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
-const { Passenger, Airline } = require("../db/models");
+const { User, Airline } = require("../db/models");
 const bcrypt = require("bcrypt");
 
 exports.localStrategy = new LocalStrategy(
@@ -15,7 +15,7 @@ exports.localStrategy = new LocalStrategy(
           where: { username },
         });
       } else if (req.path === "/signin") {
-        user = await Passenger.findOne({
+        user = await User.findOne({
           where: { username },
         });
       }
@@ -50,9 +50,8 @@ exports.jwtStrategy = new JWTStrategy(
         user = await Airline.findOne({
           where: { username: jwtPayload.username },
         });
-      } else if (jwtPayload.role === "passenger") {
-        console.log("jwt passenger");
-        user = await Passenger.findOne({
+      } else if (jwtPayload.role === "user") {
+        user = await User.findOne({
           where: { username: jwtPayload.username },
         });
       }
