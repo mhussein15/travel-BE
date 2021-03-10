@@ -30,8 +30,16 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     arrivaltime: { type: DataTypes.TIME, allowNull: false },
-    economyseats: { type: DataTypes.INTEGER, allowNull: false },
-    businessseats: { type: DataTypes.INTEGER, allowNull: false },
+    economyseats: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { min: 0 },
+    },
+    businessseats: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { min: 0 },
+    },
   });
 
   return Flight;
