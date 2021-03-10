@@ -1,14 +1,5 @@
 const { Airport } = require("../db/models");
 
-// exports.fetchAirport = async (airportId, next) => {
-//   try {
-//     const foundAirport = await Airport.findByPk(airportId);
-//     return foundAirport;
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 exports.airportCreate = async (req, res, next) => {
   try {
     const newAirport = await Airport.create(req.body);

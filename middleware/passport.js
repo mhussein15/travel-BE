@@ -21,13 +21,10 @@ exports.localStrategy = new LocalStrategy(
       }
       if (user) {
         passwordsMatch = await bcrypt.compare(password, user.password);
-      } else {
-        passwordsMatch = false;
-      }
-      if (passwordsMatch) {
         return done(null, user);
+      } else {
+        return done(null, false);
       }
-      return done(null, false);
     } catch (error) {
       done(error);
     }
@@ -50,7 +47,6 @@ exports.jwtStrategy = new JWTStrategy(
         user = await Airline.findOne({
           where: { username: jwtPayload.username },
         });
-
       } else if (jwtPayload.role === "user") {
         user = await User.findOne({
           where: { username: jwtPayload.username },
