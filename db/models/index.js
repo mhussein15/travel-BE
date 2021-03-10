@@ -54,4 +54,20 @@ db.Flight.belongsTo(db.Airport, { foreignKey: "departureAirportId" });
 db.Airport.hasMany(db.Flight, { foreignKey: "arrivalAirportId" });
 db.Flight.belongsTo(db.Airport, { foreignKey: "arrivalAirportId" });
 
+//Booking and Passenger
+db.Booking.hasMany(db.Passenger, { foreignKey: "bookingId" });
+db.Passenger.belongsTo(db.Booking, { foreignKey: "bookingId" });
+
+//Booking AND Flight
+db.Booking.belongsToMany(db.Flight, {
+  through: "FlightBooking",
+  foreignKey: "bookingId",
+  as: "flights",
+});
+db.Flight.belongsToMany(db.Booking, {
+  through: "FlightBooking",
+  foreignKey: "flightId",
+  as: "bookings",
+});
+
 module.exports = db;
