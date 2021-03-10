@@ -50,6 +50,7 @@ exports.jwtStrategy = new JWTStrategy(
         user = await Airline.findOne({
           where: { username: jwtPayload.username },
         });
+
       } else if (jwtPayload.role === "user") {
         user = await User.findOne({
           where: { username: jwtPayload.username },

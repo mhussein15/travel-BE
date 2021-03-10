@@ -1,28 +1,38 @@
-//IMPORT FILES
 const express = require("express");
-const router = express.Router();
 const passport = require("passport");
-
-//IMPORT CONTROLLERS
-const { signin, signup } = require("../controllers/airlinesController");
-
-//IMPORT VALIDATION RULES
 const {
-  userSigninValidationRules,
-  userSignupValidationRules,
-} = require("../middleware/validator/userValidator");
-const { validate } = require("../middleware/validator/validate");
+  fetchAirline,
+  flightCreate,
+  airlineList,
+  airlineDetail,
+} = require("../controllers/airlinesController");
+const { isAirline } = require("../middleware/auth/airportAuth");
+const router = express.Router();
 
-//ROUTER
+router.param("airlineId", async (req, res, next, airlineId) => {
+  const foundAirline = await fetchAirline(airlineId, next);
+  if (foundAirline) {
+    req.airline = foundAirline;
+    next();
+  } else {
+    next({
+      status: 404,
+      message: "Airline not found",
+    });
+  }
+});
 
-//SIGNIN
+//airlines
+router.get("/", airlineList);
+
+//create flight
 router.post(
-  "/airline-signin",
-  userSigninValidationRules(),
-  validate,
-  passport.authenticate("local", { session: false }),
-  signin
+  "/:airlineId/flights",
+  passport.authenticate("jwt", { session: false }),
+  isAirline,
+  flightCreate
 );
-//SIGNUP
-router.post("/airline-signup", userSignupValidationRules(), validate, signup);
+
+//detail
+router.get("/:airlineId", airlineDetail);
 module.exports = router;
