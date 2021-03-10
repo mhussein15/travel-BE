@@ -52,6 +52,7 @@ exports.flightCreate = async (req, res, next) => {
   try {
     req.body.airlineId = req.airline.id;
     const newFlight = await Flight.create(req.body);
+
     res.status(201).json(newFlight);
   } catch (error) {
     next(error);

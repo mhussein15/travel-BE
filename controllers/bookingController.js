@@ -2,7 +2,7 @@ const { Booking, Passenger, Flight } = require("../db/models");
 
 exports.createBooking = async (req, res, next) => {
   try {
-    req.body.flights.map(async (x) => {
+    req.body.flights.forEach(async (x) => {
       let flight = await Flight.findByPk(x);
       if (req.body.economySeats) {
         await flight.update({
@@ -14,7 +14,7 @@ exports.createBooking = async (req, res, next) => {
         });
       }
     });
-
+    
     const newBooking = await Booking.create();
 
     const cart = req.body.passengers.map((passenger) => ({
