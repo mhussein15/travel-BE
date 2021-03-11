@@ -22,12 +22,12 @@ const { validate } = require("../middleware/validator/validate");
 //GET AIRPORT LIST
 router.get(
   "/",
-  passport.authenticate("jwt", { session: false }),
-  isAirline,
+  //   passport.authenticate("jwt", { session: false }),
+  //   isAirline,
   airportList
 );
 
-//CREATE AIRPORT LIST 
+//CREATE AIRPORT LIST
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
