@@ -27,7 +27,7 @@ router.post("/signup", userSignupValidationRules(), validate, signup);
 
 //FETCH USER PROFILE
 router.get(
-  "/profile/:username",
+  "/profile",
   passport.authenticate("jwt", { session: false }),
   isUser,
   profile
