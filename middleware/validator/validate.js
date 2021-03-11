@@ -14,3 +14,4 @@ exports.validate = (req, res, next) => {
     message: extractedErrors,
   });
 };
+
