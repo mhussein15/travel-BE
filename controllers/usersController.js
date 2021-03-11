@@ -53,10 +53,6 @@ exports.signin = (req, res) => {
   res.json({ token });
 };
 
-// exports.profile = (req, res) => {
-//   res.status(200).json(req.profile);
-// };
-
 exports.profile = async (req, res, next) => {
   try {
     let foundProfile;
