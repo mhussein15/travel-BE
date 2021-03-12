@@ -1,7 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
-const bookingController = require("../controllers/bookingController");
+const {createBooking} = require("../controllers/bookingController");
 const {
   bookingValidationRules,
 } = require("../middleware/validator/bookingValidator");
@@ -10,7 +10,7 @@ const { validate } = require("../middleware/validator/validate");
 router.post(
   "/",
   bookingValidationRules,
-  bookingController.createBooking
+  createBooking
 );
 
 module.exports = router;

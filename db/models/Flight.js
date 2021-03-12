@@ -1,3 +1,4 @@
+const moment = require("moment");
 module.exports = (sequelize, DataTypes) => {
   const Flight = sequelize.define("Flight", {
     price: {
@@ -10,28 +11,40 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    departuredate: {
-      type: DataTypes.DATEONLY,
+    departureDate: {
+      type: DataTypes.DATE,
       validate: {
         isDate: {
           args: true,
           msg: "Not a valid date",
         },
       },
+      get() {
+        return moment(this.getDataValue("departureDate")).format("LLLL");
+      },
     },
-    departuretime: { type: DataTypes.TIME, allowNull: false },
-    arrivaldate: {
-      type: DataTypes.DATEONLY,
+    arrivalDate: {
+      type: DataTypes.DATE,
       validate: {
         isDate: {
           args: true,
           msg: "Not a valid date",
         },
+        getDate(value) {
+          if (
+            moment(value).isBefore(moment(this.departureDate)) ||
+            moment(value).isSame(moment(this.departureDate))
+          ) {
+            throw new Error("Arrival Date and Time cant be before Departure Date and Time");
+          }
+        },
+      },
+      get() {
+        return moment(this.getDataValue("arrivalDate")).format("LLLL");
       },
     },
-    arrivaltime: { type: DataTypes.TIME, allowNull: false },
-    economyseats: { type: DataTypes.INTEGER, allowNull: false },
-    businessseats: { type: DataTypes.INTEGER, allowNull: false },
+    economySeats: { type: DataTypes.INTEGER, allowNull: false },
+    businessSeats: { type: DataTypes.INTEGER, allowNull: false },
   });
 
   return Flight;

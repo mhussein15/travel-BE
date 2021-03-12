@@ -2,21 +2,10 @@ const { Booking, Passenger, Flight } = require("../db/models");
 
 exports.createBooking = async (req, res, next) => {
   try {
-    req.body.flights.forEach(async (x) => {
-      let flight = await Flight.findByPk(x);
-      if (req.body.economySeats) {
-        await flight.update({
-          economyseats: flight.get("economyseats") - req.body.economySeats,
-        });
-      } else if (req.body.businessSeats) {
-        await flight.update({
-          businessseats: flight.get("businessseats") - req.body.businessSeats,
-        });
-      }
-    });
-    
+    //Create Booking
     const newBooking = await Booking.create();
 
+    //Destruct Passengers Array
     const cart = req.body.passengers.map((passenger) => ({
       ...passenger,
       bookingId: newBooking.id,
@@ -29,6 +18,18 @@ exports.createBooking = async (req, res, next) => {
     newBooking.addFlights(req.body.flights);
 
     //Seats Update
+    req.body.flights.forEach(async (x) => {
+      let flight = await Flight.findByPk(x);
+      if (req.body.economySeats) {
+        await flight.update({
+          economySeats: flight.get("economySeats") - req.body.economySeats,
+        });
+      } else if (req.body.businessSeats) {
+        await flight.update({
+          businessSeats: flight.get("businessSeats") - req.body.businessSeats,
+        });
+      }
+    });
 
     res.status(201).json({
       passengers,
