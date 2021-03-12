@@ -5,13 +5,13 @@ exports.bookingValidationRules = async (req, res, next) => {
   try {
     for (const flightId of req.body.flights) {
       let flight = await Flight.findByPk(flightId);
-      if (req.body.economySeats > flight.get("economyseats")) {
+      if (req.body.economySeats > flight.get("economySeats")) {
         next({
           status: 422,
           message: `economy`,
         });
       }
-      if (req.body.businessSeats > flight.get("businessseats")) {
+      if (req.body.businessSeats > flight.get("businessSeats")) {
         next({
           status: 422,
           message: `business`,

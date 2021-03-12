@@ -1,10 +1,9 @@
 const express = require("express");
 const passport = require("passport");
-const { flightList,flightSearch } = require("../controllers/flightController");
+const {flightSearch } = require("../controllers/flightController");
 const router = express.Router();
 
-//list flight
-router.get("/", flightList);
+//list flight search
 router.get("/search", flightSearch);
 
 module.exports = router;

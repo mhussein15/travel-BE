@@ -2,6 +2,7 @@ const { Airline, Flight } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
+const moment = require("moment");
 
 exports.signup = async (req, res, next) => {
   try {
@@ -51,9 +52,25 @@ exports.airlineDetail = async (req, res, next) => {
 exports.flightCreate = async (req, res, next) => {
   try {
     req.body.airlineId = req.airline.id;
-    const newFlight = await Flight.create(req.body);
+    const inbound = await Flight.create(req.body);
 
-    res.status(201).json(newFlight);
+    const depatureDateAndTime = moment(req.body.departureDate);
+    const arrivalDateAndTime = moment(req.body.arrivalDate);
+    const flightDuration = moment
+      .duration(arrivalDateAndTime - depatureDateAndTime)
+      .asMinutes();
+
+    const outbound = await Flight.create({
+      ...req.body,
+      departureAirportId: req.body.arrivalAirportId,
+      arrivalAirportId: req.body.departureAirportId,
+      departureDate: moment(arrivalDateAndTime).add(1, "h"),
+      arrivalDate: moment(moment(arrivalDateAndTime).add(1, "h")).add(
+        flightDuration,
+        "minute"
+      ),
+    });
+    res.status(201).json({ inbound, outbound });
   } catch (error) {
     next(error);
   }
