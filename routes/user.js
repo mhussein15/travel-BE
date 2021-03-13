@@ -4,7 +4,12 @@ const router = express.Router();
 const passport = require("passport");
 
 //IMPORT CONTROLLERS
-const { signin, signup, profile } = require("../controllers/usersController");
+const {
+  signin,
+  signup,
+  profile,
+  profileEdit,
+} = require("../controllers/usersController");
 const { isUser } = require("../middleware/auth/airportAuth");
 
 //IMPORT VALIDATION RULES
@@ -33,4 +38,10 @@ router.get(
   profile
 );
 
+router.put(
+  "/profile/edit",
+  passport.authenticate("jwt", { session: false }),
+  isUser,
+  profileEdit
+);
 module.exports = router;
