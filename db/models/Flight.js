@@ -35,7 +35,9 @@ module.exports = (sequelize, DataTypes) => {
             moment(value).isBefore(moment(this.departureDate)) ||
             moment(value).isSame(moment(this.departureDate))
           ) {
-            throw new Error("Arrival Date and Time cant be before Departure Date and Time");
+            throw new Error(
+              "Arrival Date and Time cant be before Departure Date and Time"
+            );
           }
         },
       },

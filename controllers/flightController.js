@@ -1,19 +1,11 @@
 const { Flight, Airline, Airport } = require("../db/models");
 const { Op } = require("sequelize");
-const sequelize = require("sequelize");
 const moment = require("moment");
 
-
-exports.flightSearch = async (req, res, next) => {
+//FLIGHT INBOUND
+exports.flightInbound = async (req, res, next) => {
   try {
-    const {
-      departureId,
-      arrivalId,
-      roundtrip,
-      businessSeats,
-      economyseats,
-    } = req.query;
-    const time = moment();
+    const { departureId, arrivalId, businessSeats, economyseats } = req.query;
     const inbound = await Flight.findAll({
       where: {
         departureAirportId: departureId,
@@ -25,7 +17,7 @@ exports.flightSearch = async (req, res, next) => {
           [Op.gte]: economyseats ?? 0,
         },
         departureDate: {
-          [Op.gte]: time.add(2, "hours").format("LLLL"),
+          [Op.gte]: moment().add(2, "hours").format("LLLL"),
         },
       },
       attributes: {
@@ -45,40 +37,53 @@ exports.flightSearch = async (req, res, next) => {
       ],
     });
 
-    let outbound;
-    if (roundtrip === "true") {
-      outbound = await Flight.findAll({
-        where: {
-          departureAirportId: arrivalId,
-          arrivalAirportId: departureId,
-          businessSeats: {
-            [Op.gte]: businessSeats ?? 0,
-          },
-          economySeats: {
-            [Op.gte]: economyseats ?? 0,
-          },
-          departureDate: {
-            [Op.gte]: moment(sequelize.col("arrivalDate")).add(2, "hours"),
-          },
+    res.status(200).json(inbound);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//FLIGHT OUTBOUND
+exports.flightOutbound = async (req, res, next) => {
+  try {
+    const {
+      departureId,
+      arrivalId,
+      businessSeats,
+      economyseats,
+      arrivalDate,
+    } = req.query;
+    const outbound = await Flight.findAll({
+      where: {
+        departureAirportId: arrivalId,
+        arrivalAirportId: departureId,
+        businessSeats: {
+          [Op.gte]: businessSeats ?? 0,
         },
-        attributes: {
-          exclude: [
-            "createdAt",
-            "updatedAt",
-            "departureAirportId",
-            "arrivalAirportId",
-            "businessSeats",
-            "economySeats",
-          ],
+        economySeats: {
+          [Op.gte]: economyseats ?? 0,
         },
-        include: [
-          { model: Airline, as: "airline", attributes: ["name"] },
-          { model: Airport, as: "departureAirport", attributes: ["name"] },
-          { model: Airport, as: "arrivalAirport", attributes: ["name"] },
+        departureDate: {
+          [Op.gte]: moment(arrivalDate).add(2, "hours"),
+        },
+      },
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          "departureAirportId",
+          "arrivalAirportId",
+          "businessSeats",
+          "economySeats",
         ],
-      });
-    }
-    res.status(200).json({ inbound, outbound });
+      },
+      include: [
+        { model: Airline, as: "airline", attributes: ["name"] },
+        { model: Airport, as: "departureAirport", attributes: ["name"] },
+        { model: Airport, as: "arrivalAirport", attributes: ["name"] },
+      ],
+    });
+    res.status(200).json(outbound);
   } catch (error) {
     next(error);
   }

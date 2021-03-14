@@ -22,10 +22,14 @@ router.param("airlineId", async (req, res, next, airlineId) => {
   }
 });
 
-//airlines
-router.get("/", airlineList);
+//FETCH AIRLINE FLIGHTS
+router.get(
+  "/:airlineId/flights",
+  passport.authenticate("jwt", { session: false }),
+  airlineList
+);
 
-//create flight
+//CREATES FLIGHT OF AIRLINE
 router.post(
   "/:airlineId/flights",
   passport.authenticate("jwt", { session: false }),
@@ -33,6 +37,4 @@ router.post(
   flightCreate
 );
 
-//detail
-router.get("/:airlineId", airlineDetail);
 module.exports = router;

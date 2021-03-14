@@ -1,4 +1,4 @@
-const { User } = require("../db/models");
+const { User, Booking, Flight } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
@@ -46,6 +46,22 @@ exports.profile = async (req, res, next) => {
           "gender",
           "createdAt",
           "updatedAt",
+        ],
+      },
+      include: {
+        model: Booking,
+        as: "booking",
+        include: [
+          {
+            model: Flight,
+            as: "flights",
+            attributes: {
+              exclude: [],
+            },
+            through: {
+              attributes: [],
+            },
+          },
         ],
       },
     });

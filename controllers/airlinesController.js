@@ -1,9 +1,10 @@
-const { Airline, Flight } = require("../db/models");
+const { Airline, Flight, Airport } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 const moment = require("moment");
 
+//AIRLINE USER SIGNUP
 exports.signup = async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -21,6 +22,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+//AIRLINE USER SIGNIN
 exports.signin = (req, res) => {
   const { user } = req;
   const payload = {
@@ -32,12 +34,25 @@ exports.signin = (req, res) => {
   res.json({ token });
 };
 
+//FETCH AIRLINE LIST
 exports.airlineList = async (req, res, next) => {
   try {
-    const airlines = await Airline.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt"] },
-
-      include: { model: Flight, as: "flights", attributes: ["id"] },
+    const airlines = await Flight.findAll({
+      where: { airlineId: req.airline.id },
+      include: [
+        { model: Airline, as: "airline", attributes: ["name"] },
+        { model: Airport, as: "departureAirport", attributes: ["name"] },
+        { model: Airport, as: "arrivalAirport", attributes: ["name"] },
+      ],
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          "departureAirportId",
+          "arrivalAirportId",
+          "airlineId",
+        ],
+      },
     });
     res.status(200).json(airlines);
   } catch (error) {
@@ -45,10 +60,7 @@ exports.airlineList = async (req, res, next) => {
   }
 };
 
-exports.airlineDetail = async (req, res, next) => {
-  res.status(200).json(req.airline);
-};
-
+//CREATES FLIGHT OF AIRLINE
 exports.flightCreate = async (req, res, next) => {
   try {
     req.body.airlineId = req.airline.id;
@@ -76,6 +88,7 @@ exports.flightCreate = async (req, res, next) => {
   }
 };
 
+//FETCH AIRLINE PARAM
 exports.fetchAirline = async (airlineId, next) => {
   try {
     const foundAirline = await Airline.findByPk(airlineId);

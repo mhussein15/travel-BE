@@ -5,6 +5,10 @@ exports.createBooking = async (req, res, next) => {
     //Create Booking
     const newBooking = await Booking.create();
 
+    console.log(req.user)
+    if (req.user) {
+      newBooking.setUser(req.user.id);
+    }
     //Destruct Passengers Array
     const cart = req.body.passengers.map((passenger) => ({
       ...passenger,
