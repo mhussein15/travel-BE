@@ -10,7 +10,7 @@ const {
   profile,
   profileEdit,
 } = require("../controllers/usersController");
-const { isUser } = require("../middleware/auth/airportAuth");
+const { isUser } = require("../middleware/auth/isAuth");
 
 //IMPORT VALIDATION RULES
 const {
