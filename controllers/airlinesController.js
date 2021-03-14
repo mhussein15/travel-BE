@@ -88,13 +88,3 @@ exports.flightCreate = async (req, res, next) => {
   }
 };
 
-//FETCH AIRLINE PARAM
-exports.fetchAirline = async (airlineId, next) => {
-  try {
-    const foundAirline = await Airline.findByPk(airlineId);
-    if (foundAirline) return foundAirline;
-    else next({ message: "Airline does not exist" });
-  } catch (error) {
-    next(error);
-  }
-};
