@@ -1,4 +1,3 @@
-const passport = require("passport");
 
 exports.isAirline = (req, res, next) => {
   if (req.role === "airline") {

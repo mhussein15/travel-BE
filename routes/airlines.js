@@ -6,7 +6,7 @@ const {
   airlineList,
   airlineDetail,
 } = require("../controllers/airlinesController");
-const { isAirline } = require("../middleware/auth/airportAuth");
+const { isAirline } = require("../middleware/auth/isAuth");
 const router = express.Router();
 
 router.param("airlineId", async (req, res, next, airlineId) => {

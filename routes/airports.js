@@ -10,7 +10,7 @@ const {
 } = require("../controllers/airportController");
 
 //IMPORT AUTH
-const { isAirline } = require("../middleware/auth/airportAuth");
+const { isAirline } = require("../middleware/auth/isAuth");
 //IMPORT VALIDATION
 const {
   airportValidationRules,

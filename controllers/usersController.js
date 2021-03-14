@@ -1,4 +1,4 @@
-const { User, Booking, Flight } = require("../db/models");
+const { User, Booking, Flight ,Airline,Airport} = require("../db/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
@@ -39,28 +39,36 @@ exports.profile = async (req, res, next) => {
     const foundProfile = await User.findOne({
       where: { username: req.user.username },
       attributes: {
-        exclude: [
-          "id",
-          "username",
-          "password",
-          "gender",
-          "createdAt",
-          "updatedAt",
-        ],
+        exclude: ["id", "password", "gender", "createdAt", "updatedAt"],
       },
       include: {
         model: Booking,
         as: "booking",
+        attributes: {
+          exclude: ["updatedAt", "userId"],
+        },
         include: [
           {
             model: Flight,
             as: "flights",
             attributes: {
-              exclude: [],
+              exclude: [
+                "createdAt",
+                "updatedAt",
+                "departureAirportId",
+                "arrivalAirportId",
+                "businessSeats",
+                "economySeats",
+              ],
             },
             through: {
               attributes: [],
             },
+            include: [
+              { model: Airline, as: "airline", attributes: ["name"] },
+              { model: Airport, as: "departureAirport", attributes: ["name"] },
+              { model: Airport, as: "arrivalAirport", attributes: ["name"] },
+            ],
           },
         ],
       },
