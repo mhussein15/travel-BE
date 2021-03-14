@@ -82,4 +82,8 @@ db.Flight.belongsToMany(db.Booking, {
   as: "bookings",
 });
 
+//User and Booking
+db.User.hasMany(db.Booking, { foreignKey: "userId", as: "booking" });
+db.Booking.belongsTo(db.User, { foreignKey: "userId", as: "user" });
+
 module.exports = db;
