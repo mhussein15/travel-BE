@@ -1,4 +1,4 @@
-const { User, Booking, Flight ,Airline,Airport} = require("../db/models");
+const { User, Booking, Flight, Airline, Airport } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
@@ -78,33 +78,11 @@ exports.profile = async (req, res, next) => {
     next(error);
   }
 };
-
+//USER EIDT PROFILE
 exports.profileEdit = async (req, res, next) => {
   try {
-    const foundProfile = await User.findOne({
-      where: { username: req.user.username },
-      attributes: {
-        exclude: [
-          "id",
-          "username",
-          "password",
-          "gender",
-          "createdAt",
-          "updatedAt",
-        ],
-      },
-    });
-    console.log(req.user);
-    if (foundProfile) {
-      const newUser = await req.user.update(req.body);
-
-      res.status(200).json(newUser);
-    } else {
-      next({
-        status: 401,
-        message: "You can't update another user's details !!",
-      });
-    }
+    const updatedUser = await req.user.update(req.body);
+    res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
   }
