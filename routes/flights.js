@@ -1,5 +1,8 @@
 const express = require("express");
-const { flightInbound ,flightOutbound} = require("../controllers/flightController");
+const {
+  flightInbound,
+  flightOutbound,
+} = require("../controllers/flightController");
 const router = express.Router();
 
 //list flight search

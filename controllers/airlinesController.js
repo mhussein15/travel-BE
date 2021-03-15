@@ -63,7 +63,7 @@ exports.airlineList = async (req, res, next) => {
 //CREATES FLIGHT OF AIRLINE
 exports.flightCreate = async (req, res, next) => {
   try {
-    req.body.airlineId = req.airline.id;
+    req.body.airlineId = req.user.id;
     const inbound = await Flight.create(req.body);
 
     const depatureDateAndTime = moment(req.body.departureDate);

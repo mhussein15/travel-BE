@@ -25,4 +25,12 @@ router.post(
   flightCreate
 );
 
+//EDIT FLIGHT
+// router.post(
+//   "/flights/:flight",
+//   passport.authenticate("jwt", { session: false }),
+//   isAirline,
+//   flightCreate
+// );
+
 module.exports = router;
