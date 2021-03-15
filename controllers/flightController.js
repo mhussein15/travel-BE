@@ -82,7 +82,7 @@ exports.flightOutbound = async (req, res, next) => {
     } else {
       departureDateAndTime = departureDate;
     }
-
+    
     const outbound = await Flight.findAll({
       where: {
         departureAirportId: arrivalId,

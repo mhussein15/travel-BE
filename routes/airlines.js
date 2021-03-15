@@ -9,11 +9,11 @@ const {
 const { isAirline } = require("../middleware/auth/isAuth");
 const router = express.Router();
 
-
 //FETCH AIRLINE FLIGHTS
 router.get(
   "/flights",
   passport.authenticate("jwt", { session: false }),
+  isAirline,
   airlineList
 );
 
@@ -25,12 +25,12 @@ router.post(
   flightCreate
 );
 
-//EDIT FLIGHT
-// router.post(
-//   "/flights/:flight",
-//   passport.authenticate("jwt", { session: false }),
-//   isAirline,
-//   flightCreate
-// );
+// EDIT FLIGHT
+router.post(
+  "/flights/:flight",
+  passport.authenticate("jwt", { session: false }),
+  isAirline,
+  flightCreate
+);
 
 module.exports = router;

@@ -38,9 +38,9 @@ exports.signin = (req, res) => {
 exports.airlineList = async (req, res, next) => {
   try {
     const airlines = await Flight.findAll({
-      where: { airlineId: req.airline.id },
+      where: { airlineId: req.user.id },
+      order:["id"],
       include: [
-        { model: Airline, as: "airline", attributes: ["name"] },
         { model: Airport, as: "departureAirport", attributes: ["name"] },
         { model: Airport, as: "arrivalAirport", attributes: ["name"] },
       ],
