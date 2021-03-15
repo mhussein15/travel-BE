@@ -5,7 +5,24 @@ const moment = require("moment");
 //FLIGHT INBOUND
 exports.flightInbound = async (req, res, next) => {
   try {
-    const { departureId, arrivalId, businessSeats, economyseats } = req.query;
+    const {
+      departureId,
+      arrivalId,
+      businessSeats,
+      economyseats,
+      departureDate,
+    } = req.query;
+
+    let departureDateAndTime = moment(departureDate).format("ll");
+
+    let today = moment(new Date()).format("ll");
+
+    if (moment(today).isSame(departureDateAndTime)) {
+      departureDateAndTime = moment(departureDate).add(2, "hours");
+    } else {
+      departureDateAndTime = departureDate;
+    }
+
     const inbound = await Flight.findAll({
       where: {
         departureAirportId: departureId,
@@ -17,7 +34,7 @@ exports.flightInbound = async (req, res, next) => {
           [Op.gte]: economyseats ?? 0,
         },
         departureDate: {
-          [Op.gte]: moment().add(2, "hours").format("LLLL"),
+          [Op.gte]: departureDateAndTime,
         },
       },
       attributes: {
@@ -28,6 +45,7 @@ exports.flightInbound = async (req, res, next) => {
           "arrivalAirportId",
           "businessSeats",
           "economySeats",
+          "airlineId",
         ],
       },
       include: [
@@ -51,8 +69,20 @@ exports.flightOutbound = async (req, res, next) => {
       arrivalId,
       businessSeats,
       economyseats,
+      departureDate,
       arrivalDate,
     } = req.query;
+
+    let departureDateAndTime = moment(arrivalDate).format("ll");
+
+    let departure = moment(departureDate).format("ll");
+
+    if (moment(departure).isSame(departureDateAndTime)) {
+      departureDateAndTime = moment(arrivalDate).add(2, "hours");
+    } else {
+      departureDateAndTime = departureDate;
+    }
+
     const outbound = await Flight.findAll({
       where: {
         departureAirportId: arrivalId,
@@ -64,7 +94,7 @@ exports.flightOutbound = async (req, res, next) => {
           [Op.gte]: economyseats ?? 0,
         },
         departureDate: {
-          [Op.gte]: moment(arrivalDate).add(2, "hours"),
+          [Op.gte]: departureDateAndTime,
         },
       },
       attributes: {
@@ -75,6 +105,7 @@ exports.flightOutbound = async (req, res, next) => {
           "arrivalAirportId",
           "businessSeats",
           "economySeats",
+          "airlineId",
         ],
       },
       include: [
