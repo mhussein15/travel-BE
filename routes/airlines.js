@@ -5,6 +5,7 @@ const {
   flightCreate,
   airlineList,
   airlineDetail,
+  flightEdit,
 } = require("../controllers/airlinesController");
 const { isAirline } = require("../middleware/auth/isAuth");
 const router = express.Router();
@@ -25,12 +26,12 @@ router.post(
   flightCreate
 );
 
-// EDIT FLIGHT
-router.post(
-  "/flights/:flight",
+//EDIT FLIGHT
+router.put(
+  "/flights/:flightId",
   passport.authenticate("jwt", { session: false }),
   isAirline,
-  flightCreate
+  flightEdit
 );
 
 module.exports = router;

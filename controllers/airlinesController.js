@@ -39,7 +39,7 @@ exports.airlineList = async (req, res, next) => {
   try {
     const airlines = await Flight.findAll({
       where: { airlineId: req.user.id },
-      order:["id"],
+      order: ["id"],
       include: [
         { model: Airport, as: "departureAirport", attributes: ["name"] },
         { model: Airport, as: "arrivalAirport", attributes: ["name"] },
@@ -88,3 +88,27 @@ exports.flightCreate = async (req, res, next) => {
   }
 };
 
+//EDIT FLIGHT OF AIRLINE
+exports.flightEdit = async (req, res, next) => {
+  try {
+    const flight = await Flight.findByPk(+req.params.flightId);
+    if (flight) {
+      if (flight.airlineId === req.user.id) {
+        await flight.update(req.body);
+        res.sendStatus(204);
+      } else {
+        next({
+          status: 401,
+          message: "Unauthorized",
+        });
+      }
+    } else {
+      next({
+        status: 404,
+        message: "Flight Not Found",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
