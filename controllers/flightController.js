@@ -77,12 +77,15 @@ exports.flightOutbound = async (req, res, next) => {
 
     let departure = moment(departureDate).format("ll");
 
-    if (moment(departure).isSame(departureDateAndTime)) {
+    if (
+      moment(departure).isSame(departureDateAndTime) ||
+      moment(departure).isBefore(arrivalDate)
+    ) {
       departureDateAndTime = moment(arrivalDate).add(2, "hours");
     } else {
       departureDateAndTime = departureDate;
     }
-    
+
     const outbound = await Flight.findAll({
       where: {
         departureAirportId: arrivalId,
