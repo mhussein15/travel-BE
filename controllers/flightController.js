@@ -9,7 +9,7 @@ exports.flightInbound = async (req, res, next) => {
       departureId,
       arrivalId,
       businessSeats,
-      economyseats,
+      economySeats,
       departureDate,
     } = req.query;
 
@@ -22,7 +22,6 @@ exports.flightInbound = async (req, res, next) => {
     } else {
       departureDateAndTime = departureDate;
     }
-
     const inbound = await Flight.findAll({
       where: {
         departureAirportId: departureId,
@@ -31,7 +30,7 @@ exports.flightInbound = async (req, res, next) => {
           [Op.gte]: businessSeats ?? 0,
         },
         economySeats: {
-          [Op.gte]: economyseats ?? 0,
+          [Op.gte]: economySeats ?? 0,
         },
         departureDate: {
           [Op.gte]: departureDateAndTime,
@@ -68,7 +67,7 @@ exports.flightOutbound = async (req, res, next) => {
       departureId,
       arrivalId,
       businessSeats,
-      economyseats,
+      economySeats,
       departureDate,
       arrivalDate,
     } = req.query;
@@ -94,7 +93,7 @@ exports.flightOutbound = async (req, res, next) => {
           [Op.gte]: businessSeats ?? 0,
         },
         economySeats: {
-          [Op.gte]: economyseats ?? 0,
+          [Op.gte]: economySeats ?? 0,
         },
         departureDate: {
           [Op.gte]: departureDateAndTime,

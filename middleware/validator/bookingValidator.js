@@ -8,13 +8,13 @@ exports.bookingValidationRules = async (req, res, next) => {
       if (req.body.economySeats > flight.get("economySeats")) {
         next({
           status: 422,
-          message: `economy`,
+          message: "Not Enough Economy Seats, Go Away",
         });
       }
       if (req.body.businessSeats > flight.get("businessSeats")) {
         next({
           status: 422,
-          message: `business`,
+          message: "Not Enough Business Seats, Go Away",
         });
       }
     }
