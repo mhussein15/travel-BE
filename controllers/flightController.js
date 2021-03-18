@@ -36,6 +36,7 @@ exports.flightInbound = async (req, res, next) => {
           [Op.gte]: departureDateAndTime,
         },
       },
+      order: ["price"],
       attributes: {
         exclude: [
           "createdAt",
@@ -99,6 +100,7 @@ exports.flightOutbound = async (req, res, next) => {
           [Op.gte]: departureDateAndTime,
         },
       },
+      order: ["price"],
       attributes: {
         exclude: [
           "createdAt",
