@@ -30,10 +30,10 @@ router.get(
 //CREATE AIRPORT LIST
 router.post(
   "/",
-  passport.authenticate("jwt", { session: false }),
-  isAirline,
-  airportValidationRules(),
-  validate,
+  // passport.authenticate("jwt", { session: false }),
+  // isAirline,
+  // airportValidationRules(),
+  // validate,
   airportCreate
 );
 

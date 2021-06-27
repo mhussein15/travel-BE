@@ -3,7 +3,6 @@ const SequelizeSlugify = require("sequelize-slugify");
 module.exports = (sequelize, DataTypes) => {
   const Airport = sequelize.define(
     "Airport",
-
     {
       name: {
         type: DataTypes.STRING,
